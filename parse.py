@@ -1,4 +1,5 @@
 import xml.sax
+from process import *
 
 class WikiDocParser(xml.sax.ContentHandler):
 	
@@ -15,7 +16,7 @@ class WikiDocParser(xml.sax.ContentHandler):
 		elif lbl == "text":
 			self.text = ""
 			self.textflag = 1
-
+	
 	def endElement(self, lbl):
 		if lbl == "title": #page title
 			self.titleflag = 0
@@ -24,7 +25,8 @@ class WikiDocParser(xml.sax.ContentHandler):
 			self.textflag = 0
 
 		elif lbl == "page": #end of curr page
-			pass
+			doc_to_ind(self.title, self.text, 1)
+			print("1",end="")
 
 	def characters(self, data):
 		if self.titleflag == 1:

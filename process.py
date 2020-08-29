@@ -1,32 +1,10 @@
-from nltk.stem import *
-import re
-from spacy.lang.en.stop_words import STOP_WORDS
-stemmer = PorterStemmer()
-
-#tokenise
-def tokenise(data_str):                                          
-	tokenisedWords=re.findall("\d+|[\w]+", data_str)
-	#tokenisedWords=[key.encode('utf-8') for key in tokenisedWords]
-	return tokenisedWords
-
-#lowercase
-def lower_string(data_str):
-	return data_str.lower()
-
-#remove all stop words and perform stemming
-def stem_and_stop(data_list):
-	without_stop=[]
-	for word in data_list:
-		word = stemmer.stem(word) 
-		if word in STOP_WORDS:
-			continue
-		without_stop.append(word)
-	return without_stop
-
+#this file takes the text and title of the doc and converts it into a series of lists, one list for each doc 
+from preprocess import *
+from indexer import lists_processing
 
 #parse the title	
 def get_title(data):
-	pass
+	return stem_and_stop(tokenise(data))
 
 #getting the infobox
 def get_infobox(data):
@@ -39,16 +17,13 @@ def get_infobox(data):
 		end = -1
 		while ind < len(data)-1 and end == -1:
 			if data[ind] == '{':
-				print("open", end = "")
 				op += 1
 			elif data[ind] == '}':
-				print("close", end ="")
 				op -=1
 				if data[ind+1] == '}' and op == 1:
 					end = ind
 			ind +=1
 		if end != -1:
-			print(start, end)
 			infoboxes += tokenise(data[start:end])
 			infoboxinds.append([start, end])
 		
@@ -67,10 +42,10 @@ def get_ref(data):
 			break
 
 	for m in re.finditer(r'<\s?ref[^\/>]*\/>', data):
-		refs += tokenise(m[0])
-
+		refs += tokenise(m[0])[2:]
+	
 	for m in re.finditer(r'<\s?ref[^\/>]*\>.*<\/\s?ref\s?>', data):
-		refs += tokenise(m[0])
+		refs += tokenise(m[0])[1:-1]   #from here can also remove https, url
 	
 	return stem_and_stop(refs)
 		
@@ -99,18 +74,21 @@ def get_links(data, end):
 	else:
 		return [], -1
 
+#getting the body
+def get_body(data, stop):
+	return stem_and_stop(tokenise(data[:stop]))
 
-#completely pre-process
-def doc_to_ind(title, text, doc_id):
+
+#completely process, function to interface with parse.py
+def doc_to_ind(title, text, doc_id, lod, sow):
 	text = lower_string(text)
 	title = lower_string(title)
-	print("ALL",text)
-	get_title(title)
-	lol, beg_of_cats = get_category(text)
-	print("CATS", lol)
-	lol, beg_of_links = get_links(text, beg_of_cats)
-	print("LINKS", lol)
-	lol1, lol2 = get_infobox(text)
-	print("INFO", lol1)
-	get_ref(text)
+	titl = get_title(title)
+	cats, beg_of_cats = get_category(text)
+	links, beg_of_links = get_links(text, beg_of_cats)
+	infobox, lol2 = get_infobox(text)
+	refs = get_ref(text)
+	body = get_body(text, beg_of_links)
+	
+	lists_processing([titl, infobox, body, cats, links, refs], lod, doc_id, sow)
 

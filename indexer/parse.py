@@ -47,14 +47,14 @@ class WikiDocParser(xml.sax.ContentHandler):
 		elif self.textflag == 1:
 			self.text += data
 
-def parse_doc(filename, output_file1, output_file2):
+def parse_doc(filename, out_dirname, output_file1, output_file2):
 	parser = xml.sax.make_parser()
 	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 	parser.setContentHandler(WikiDocParser())
 	parser.parse(open("%s"%(filename),"r"))
 	print("writing")
 	
-	write_to_disk(WikiDocParser.lod, WikiDocParser.sow, output_file1)
+	write_to_disk(WikiDocParser.lod, WikiDocParser.sow, out_dirname, output_file1)
 	print(tokens_total)
 	with open("%s"%(output_file2),"w") as f:
 		f.write(str(tokens_total))

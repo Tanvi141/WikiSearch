@@ -33,11 +33,11 @@ def query_parse(filename, query_string):
 	if len(sp) == 1: #then is is a plain query
 		toks = stem_and_stop(tokenise(lower_string(query_string)))
 		for word in toks:
-			print("FOR THE WORD:", word)
+			print("Posting list for:", word)
 			print(search_file(filename, word, '-'))
 
 	else:
-		print(sp)
+		#print(sp)
 		for i in range(1,len(sp)):
 			field_letter = sp[i-1][len(sp[i-1])-1] #the last char
 			words = sp[i]
@@ -45,6 +45,6 @@ def query_parse(filename, query_string):
 				words = words[:-2]
 			for word in stem_and_stop(tokenise(lower_string(words))):
 				if word != " ":
-					print("FOR THE WORD:", word+"!!")
+					print("Posting list for:", word)
 					print(search_file(filename, word, field_letter))
 

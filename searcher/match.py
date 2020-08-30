@@ -21,5 +21,8 @@ def search_file(dirname, query_word, field_letter):
 		for line in lines:
 			word, pl = parse_line(line)
 			if word == query_word:
-				return pl
-		return "word not found!!"
+				if len(pl.split(field_letter)) != 1 and field_letter != '-':
+					return pl
+				else:
+					return "word not existing in that field"
+		return "word not found"

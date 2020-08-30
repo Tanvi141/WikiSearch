@@ -4,7 +4,8 @@ from indexer import lists_processing
 
 #parse the title	
 def get_title(data):
-	return stem_and_stop(tokenise(data))
+	toks = tokenise(data)
+	return stem_and_stop(toks), len(toks)
 
 #getting the infobox
 def get_infobox(data):
@@ -27,7 +28,7 @@ def get_infobox(data):
 			infoboxes += tokenise(data[start:end])
 			infoboxinds.append([start, end])
 		
-	return stem_and_stop(infoboxes), infoboxinds
+	return stem_and_stop(infoboxes), infoboxinds, len(infoboxes)
 
 
 #getting the references
@@ -47,7 +48,7 @@ def get_ref(data):
 #	for m in re.finditer(r'<\s?ref[^\/>]*\>.*<\/\s?ref\s?>', data):
 #		refs += tokenise(m[0])[1:-1]   #from here can also remove https, url
 	
-	return stem_and_stop(refs)
+	return stem_and_stop(refs), len(refs)
 		
 #getting the categories
 def get_category(data):
@@ -58,7 +59,7 @@ def get_category(data):
 		cats = cats + tokenise(m[0][start:-2])
 		if beg == -1:
 			beg = m.start()
-	return stem_and_stop(cats), beg
+	return stem_and_stop(cats), beg, len(cats)
 
 
 #getting the external links	
@@ -67,28 +68,38 @@ def get_links(data, end):
 	m = re.search(r'==\s*external links\s*==', data)
 	if m:
 		if end != -1:
-			links = stem_and_stop(tokenise(data[m.start():end]))
+			toks = tokenise(data[m.start():end])											  
 		else:
-			links = stem_and_stop(tokenise(data[m.start():]))
-		return links, m.start()
+			toks = tokenise(data[m.start():])
+		return stem_and_stop(toks), m.start(), len(toks)
 	else:
-		return [], -1
+		return [], -1, 0
 
 #getting the body
 def get_body(data, stop):
-	return stem_and_stop(tokenise(data[:stop]))
+	toks = tokenise(data[:stop])
+	return stem_and_stop(toks), len(toks)
 
 
 #completely process, function to interface with parse.py
 def doc_to_ind(title, text, doc_id, lod, sow):
 	text = lower_string(text)
 	title = lower_string(title)
-	titl = get_title(title)
-	cats, beg_of_cats = get_category(text)
-	links, beg_of_links = get_links(text, beg_of_cats)
-	infobox, lol2 = get_infobox(text)
-	refs = get_ref(text)
-	body = get_body(text, beg_of_links)
 	
+	v = 0
+	titl, v1 = get_title(title)
+	v += v1
+	cats, beg_of_cats, v1 = get_category(text)
+	v += v1
+	links, beg_of_links, v1 = get_links(text, beg_of_cats)
+	v += v1
+	infobox, lol2, v1 = get_infobox(text)
+	v += v1
+	refs, v1 = get_ref(text)
+	v += v1
+	body, v1 = get_body(text, beg_of_links)
+	v += v1
+		
 	lists_processing([titl, infobox, body, cats, links, refs], lod, doc_id, sow)
-
+	
+	return v	

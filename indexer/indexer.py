@@ -33,7 +33,7 @@ def lists_processing(lol, lod, doc_id, sow): #list of dicts, list of lists, set 
 def write_to_disk(lod, sow, filename):
 	all_words = sorted(sow)
 	lbls = ['t','i', 'b','c','l','r']
-	with open("%s.txt"%(filename),'w') as f:
+	with open("%s"%(filename),'w') as f:
 		for word in all_words:
 			f.write(word+'=')
 			for i in range(6):

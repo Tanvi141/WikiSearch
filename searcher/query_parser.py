@@ -1,8 +1,8 @@
 import Stemmer
 import re
-from spacy.lang.en.stop_words import STOP_WORDS
-
+from nltk.corpus import stopwords 
 stemmer = Stemmer.Stemmer('english')
+stop_words = set(stopwords.words('english'))
 from match import search_file
 
 #tokenise
@@ -20,7 +20,7 @@ def stem_and_stop(data_list):
 	without_stop=[]
 	for word in data_list:
 		word = stemmer.stemWord(word) 
-		if word in STOP_WORDS:
+		if word in stop_words:
 			continue
 		without_stop.append(word)
 	return without_stop

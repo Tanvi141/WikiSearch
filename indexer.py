@@ -21,6 +21,12 @@ def lists_to_set(lol, sow):
 def lists_processing(lol, lod, doc_id, sow): #list of dicts, list of lists, set of words
 	for i in range(len(lol)):
 		list_to_dict(lol[i], lod[i], doc_id)
+	
+#	for word in lol[5]:
+#		try:
+#			lod[2][word][doc_id] -= 1 #removing overlaps between the ref and body
+#		except:
+#			print("err")
 	lists_to_set(lol, sow)
 
 

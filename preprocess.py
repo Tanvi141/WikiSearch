@@ -5,7 +5,7 @@ stemmer = Stemmer.Stemmer('english')
 
 #tokenise
 def tokenise(data_str):                                          
-	tokenisedWords=re.findall("\d+|[\w]+", data_str)
+	tokenisedWords=re.split(r'[^A-Za-z0-9]+', data_str)
 	#tokenisedWords=[key.encode('utf-8') for key in tokenisedWords]
 	return tokenisedWords
 

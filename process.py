@@ -41,11 +41,11 @@ def get_ref(data):
 			refs = refs + tokenise(data[m.start():])
 			break
 
-	for m in re.finditer(r'<\s?ref[^\/>]*\/>', data):
-		refs += tokenise(m[0])[2:]
-	
-	for m in re.finditer(r'<\s?ref[^\/>]*\>.*<\/\s?ref\s?>', data):
-		refs += tokenise(m[0])[1:-1]   #from here can also remove https, url
+#	for m in re.finditer(r'<\s?ref[^\/>]*\/>', data):
+#		refs += tokenise(m[0])[2:]
+
+#	for m in re.finditer(r'<\s?ref[^\/>]*\>.*<\/\s?ref\s?>', data):
+#		refs += tokenise(m[0])[1:-1]   #from here can also remove https, url
 	
 	return stem_and_stop(refs)
 		

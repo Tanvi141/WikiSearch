@@ -78,10 +78,12 @@ def parse_doc(filename, passed_dirname, passed_output):
 	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 	parser.setContentHandler(WikiDocParser())
 	parser.parse(open("%s"%(filename),"r"))
-	print("writing")
+	print("writing last file of %s"%(filename))
 	
 	write_to_disk(WikiDocParser.lod, WikiDocParser.sow, out_dirname, output_file + "0.txt")
-	write_titles(WikiDocParser.titles)	
+	write_titles(WikiDocParser.titles)
+
+	return titles_total
 
 def write_titles(titles):
 	with open("titles.txt","a+") as f:

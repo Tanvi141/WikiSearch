@@ -5,13 +5,23 @@ import time
 import os
 
 t0 = time.time()
+dir_output = sys.argv[2]
+stat_file = sys.argv[3]
+dir_input = sys.argv[1]
+
 try:
 	os.mkdir(sys.argv[2])
 	print("Files created  will be stored in newly created directory '%s'"%(sys.argv[2]))
 except:
 	print("Files created will be stored in pre-existing directory '%s'"%(sys.argv[2]))
 
-parse_doc(sys.argv[1], sys.argv[2], "indexfile.txt", sys.argv[3])
+what_fileind = 1
+for filename in os.listdir(dir_input):
+	print("parsing file %s"%(filename))
+	what_filename = "indexfile" + str(what_fileind) + "_" 
+	parse_doc(filename, dir_output, what_filename )
+	what_fileind += 1
+
 t1 = time.time()
 
-print("\nTotal time taken:",t1-t0,"secs")
+print("\nTime taken for parsing:",t1-t0,"secs")

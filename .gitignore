@@ -1,3 +1,4 @@
-indexfile.txt
-__pychae__/
-temp.txt
+__pycache__/
+titles.txt
+*.pyc
+inverted_index

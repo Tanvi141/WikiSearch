@@ -21,7 +21,7 @@ class WikiDocParser(xml.sax.ContentHandler):
 		self.titleflag = 0
 		self.textflag = 0
 		self.totaldocs = 0
-
+		
 	def startElement(self, lbl, attrs):
 		if lbl == "title":
 			self.title= ""
@@ -38,7 +38,7 @@ class WikiDocParser(xml.sax.ContentHandler):
 			self.textflag = 0
 
 		elif lbl == "page": #end of curr page
-			global tokens_total
+			global titles_total
 			self.totaldocs += 1
 			titles_total += 1
 
@@ -51,7 +51,7 @@ class WikiDocParser(xml.sax.ContentHandler):
 				op += "\r"
 				print(op, end="")
 			
-			if self.totaldocs % 10000 = 0:
+			if self.totaldocs % 10000 == 0:
 				write_to_disk(self.lod, self.sow, out_dirname, output_file + str((self.totaldocs // 10000) + 1) + ".txt")
 				write_titles(self.titles)
 				self.lod = [{}, {}, {}, {}, {}, {}]
@@ -86,4 +86,4 @@ def parse_doc(filename, passed_dirname, passed_output):
 def write_titles(titles):
 	with open("titles.txt","a+") as f:
 		for key in titles:
-			f.write(str(titles[key]) + ":" + key + "\n")
+			f.write(str(titles[key]) + ":" + str(key) + "\n")

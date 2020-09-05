@@ -6,7 +6,7 @@ import os
 
 t0 = time.time()
 dir_output = sys.argv[2]
-stat_file = sys.argv[3]
+#stat_file = sys.argv[3]
 dir_input = sys.argv[1]
 
 try:
@@ -19,7 +19,7 @@ what_fileind = 1
 for filename in os.listdir(dir_input):
 	print("parsing file %s"%(filename))
 	what_filename = "indexfile" + str(what_fileind) + "_" 
-	parse_doc(filename, dir_output, what_filename )
+	parse_doc(dir_input+"/"+filename, dir_output, what_filename)
 	what_fileind += 1
 
 t1 = time.time()

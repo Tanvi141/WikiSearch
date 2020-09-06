@@ -56,11 +56,16 @@ class WikiDocParser(xml.sax.ContentHandler):
 			if self.totaldocs % 10000 == 0:
 				write_to_disk(self.lod, self.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
 				write_titles(self.titles)
+#				self.lod.clear()
 				self.lod = [{}, {}, {}, {}, {}, {}]
-				self.sow = set()
-				self.titles = {}
+				self.sow.clear()
+				self.titles.clear()
 				index_count += 1
-				
+		
+		elif lbl == "mediawiki":	#end of the input file
+				write_to_disk(self.lod, self.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
+				write_titles(self.titles)
+#				
 	def characters(self, data):
 		if self.titleflag == 1:
 			self.title += data
@@ -82,10 +87,7 @@ def parse_doc(filename, passed_dirname, passed_output):
 	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 	parser.setContentHandler(WikiDocParser())
 	parser.parse(open("%s"%(filename),"r"))
-	#print("writing last file of %s"%(filename))
 	
-	write_to_disk(WikiDocParser.lod, WikiDocParser.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
-	write_titles(WikiDocParser.titles)
 	index_count += 1
 
 	return titles_total

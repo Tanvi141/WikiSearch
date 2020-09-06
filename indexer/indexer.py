@@ -38,6 +38,8 @@ def write_to_disk(lod, sow, dirname, filename):
 			f.write(word+'=')
 			for i in range(6):
 				flag = 0
+				# print("\n", i)
+				# print(lod)
 				if word in lod[i]:
 					f.write(lbls[i])
 					for doc_id in lod[i][word]:

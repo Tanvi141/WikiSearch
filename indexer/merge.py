@@ -17,7 +17,6 @@ def merge_pl(pl1, pl2):
 	lbls = ['t','i','b','c','l','r']
 	dict1 = parse_pl(pl1)
 	dict2 = parse_pl(pl2)
-	print(dict1, dict2)	
 	pl = ""
 	for c in lbls:
 		
@@ -41,18 +40,18 @@ def parse_line(line):
 
 def merge_two_files(file1, file2, outfile, dirname):
 	f1 = open(dirname+"/"+file1, 'r')
-    f2 = open(dirname+"/"+file2, 'r')
-    of = open(dirname+"/temp.txt", 'w')
-    line1 = f1.readline().strip('\n')
-    line2 = f2.readline().strip('\n')
+	f2 = open(dirname+"/"+file2, 'r')
+	of = open(dirname+"/temp.txt", 'w')
+	line1 = f1.readline().strip('\n')
+	line2 = f2.readline().strip('\n')
 	
 	while (line1 or line2):
 
-		if !line2:
+		if not(line2):
 			of.write(line1 + '\n')
 			line1 = f1.readline().strip('\n')
   		
-		elif !line2:
+		elif not(line1):
 			of.write(line2 + '\n')
 			line2 = f2.readline().strip('\n')
  
@@ -76,24 +75,29 @@ def merge_two_files(file1, file2, outfile, dirname):
 	f1.close()
 	f2.close()
 	of.close()
-
+	
+	print("removing %s and %s, renaming temp.txt to %s"%(file1, file2, outfile))
 	os.remove(dirname+"/"+file1)
 	os.remove(dirname+"/"+file2)
-	os.rename(dirname+"/temp.txt", dirname+"/"+outfile))
+	os.rename(dirname+"/temp.txt", dirname+"/"+outfile)
 
 def merge_all_files(out_dir):
-	all_files = [name for name in os.listdir('.') if os.path.isfile(name)]
+	print(out_dir)
+	all_files = [name for name in os.listdir(out_dir) ]
 	total_files = len(all_files)
-
+	
+	print(total_files)
 	while total_files > 1:
+		print("total files at loop beginning:", total_files)
 		i = 0
 		while i*2 + 1 < total_files:
 			file1 = "indexfile_"+ str(2*i) + ".txt"
 			file2 = "indexfile_"+ str(2*i + 1) + ".txt"
 			outfile = "indexfile_"+ str(i) + ".txt" 
 			merge_two_files(file1, file2, outfile, out_dir)
+			print("merged %s and %s into %s"%(file1, file2, outfile))
 			i += 1
-		if totalfiles % 2 == 1:
+		if total_files % 2 == 1:
 			os.rename(out_dir+"/indexfile_"+str(2*i)+".txt", out_dir+"/indexfile_"+str(i)+".txt")
-		total_files = i
+		total_files = (total_files + 1) // 2
 		print("\rtotalfiles is %d"%(total_files))

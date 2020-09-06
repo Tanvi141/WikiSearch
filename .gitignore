@@ -1,4 +1,5 @@
 __pycache__/
 titles.txt
 *.pyc
-inverted_index
+temp_save/
+inverted_index/

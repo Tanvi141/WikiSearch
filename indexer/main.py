@@ -4,6 +4,7 @@ import sys
 import time
 import os
 from merge import *
+from splitter import *
 
 t0 = time.time()
 dir_output = sys.argv[2]
@@ -30,7 +31,14 @@ t1 = time.time()
 print("\nTime taken for parsing:", t1-t0, "secs")
 
 t0 = time.time()
-merge_all_files(dir_output)
+#merge_all_files(dir_output)
 t1=time.time()
 print("\nTime taken for merging:", t1-t0, "secs")
+
+
+t0 = time.time()
+split_files(dir_output, 100000)
+t1=time.time()
+print("\nTime taken for merging:", t1-t0, "secs")
+
 

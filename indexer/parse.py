@@ -4,6 +4,7 @@ from process import doc_to_ind
 from indexer import write_to_disk
 
 titles_total = 0
+index_count = 0
 out_dirname = ""
 output_file = ""
 
@@ -39,6 +40,7 @@ class WikiDocParser(xml.sax.ContentHandler):
 
 		elif lbl == "page": #end of curr page
 			global titles_total
+			global index_count
 			self.totaldocs += 1
 			titles_total += 1
 
@@ -52,11 +54,12 @@ class WikiDocParser(xml.sax.ContentHandler):
 				print(op, end="")
 			
 			if self.totaldocs % 10000 == 0:
-				write_to_disk(self.lod, self.sow, out_dirname, output_file + str((self.totaldocs // 10000) + 1) + ".txt")
+				write_to_disk(self.lod, self.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
 				write_titles(self.titles)
 				self.lod = [{}, {}, {}, {}, {}, {}]
 				self.sow = set()
 				self.titles = {}
+				index_count += 1
 				
 	def characters(self, data):
 		if self.titleflag == 1:
@@ -68,6 +71,7 @@ def parse_doc(filename, passed_dirname, passed_output):
 	global out_dirname
 	global output_file
 	global titles_total
+	global index_count
 
 	print("Titles so far", titles_total)
 	
@@ -78,14 +82,15 @@ def parse_doc(filename, passed_dirname, passed_output):
 	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 	parser.setContentHandler(WikiDocParser())
 	parser.parse(open("%s"%(filename),"r"))
-	print("writing last file of %s"%(filename))
+	#print("writing last file of %s"%(filename))
 	
-	write_to_disk(WikiDocParser.lod, WikiDocParser.sow, out_dirname, output_file + "0.txt")
+	write_to_disk(WikiDocParser.lod, WikiDocParser.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
 	write_titles(WikiDocParser.titles)
+	index_count += 1
 
 	return titles_total
 
 def write_titles(titles):
 	with open("titles.txt","a+") as f:
 		for key in titles:
-			f.write(str(titles[key]) + ":" + str(key) + "\n")
+			f.write(str(key) + ":" + str(titles[key]) + "\n")

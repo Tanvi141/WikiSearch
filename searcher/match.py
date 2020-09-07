@@ -56,7 +56,7 @@ def search_file(dirname, query_word, field_letter, total_docs):
 #print("world is", word)
 
 	while word <= query_word:
-#	print(word, query_word, ind)
+#		print(word, query_word, ind)
 		ind += 1
 		line = tf.readline().strip('\n')
 	
@@ -66,7 +66,7 @@ def search_file(dirname, query_word, field_letter, total_docs):
 
 	tf.close()
 	
-#print(query_word, "in", ind)
+#	print(query_word, "in", ind)
 
 	wts = {	't': 10,'i': 7 ,'b': 2, 'c': 8,'l': 5 ,'r': 3, '-': 1}
 	filename = dirname+"/indfile"+str(ind)+".txt"

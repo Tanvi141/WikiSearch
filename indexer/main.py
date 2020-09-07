@@ -37,7 +37,7 @@ print("\nTime taken for merging:", t1-t0, "secs")
 
 
 t0 = time.time()
-split_files(dir_output, 100000)
+split_files(dir_output, 100000, infile, outfile)
 t1=time.time()
 print("\nTime taken for merging:", t1-t0, "secs")
 

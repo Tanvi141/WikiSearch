@@ -1,5 +1,6 @@
 import Stemmer
 import re
+import random
 from nltk.corpus import stopwords 
 stemmer = Stemmer.Stemmer('english')
 stop_words = set(stopwords.words('english'))
@@ -50,16 +51,19 @@ def query_parse(dirname, query_str):
 	
 	k_max= int(query_str.split(",")[0])
 	query_string = query_str.split(",")[1]
-	sp = query_string.split(':')
-	candidate_docs = []
+#	print(k_max, query_string)
+	
 	scores = {}
 	total_docs = get_total_docs(dirname)
 #	print("total docs is", total_docs)
+	
+	sp = query_string.split(':')
 	if len(sp) == 1: #then is is a plain query
 		toks = stem_and_stop(tokenise(lower_string(query_string)))
 		for word in toks:
+			if word != " " and word != "":
 #			print("Posting list for:", word)
-			temp_dict = search_file(dirname, word, '-', total_docs)
+				temp_dict = search_file(dirname, word, '-', total_docs)
 #			print(temp_dict)
 	else:
 		#print(sp)
@@ -69,7 +73,7 @@ def query_parse(dirname, query_str):
 			if i != len(sp)-1:
 				words = words[:-2]
 			for word in stem_and_stop(tokenise(lower_string(words))):
-				if word != " ":
+				if word != " " and word != "":
 #					print("Searching for %s in %s"%(word, field_letter))
 					temp_dict = search_file(dirname, word, field_letter, total_docs)
 					for doc_id in temp_dict:

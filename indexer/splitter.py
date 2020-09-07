@@ -4,6 +4,7 @@ def split_files(dirname, split_val):
 	infile = open(dirname+"/indexfile_0.txt","r")
 	cnt = 1
 	line = infile.readline().strip('\n')
+	line = infile.readline().strip('\n') #the first line is space, so ignoring that
 	ind = 0
 
 	of =  open(dirname+"/indfile"+str(ind) +".txt", 'w+')

@@ -1,7 +1,7 @@
 #this parses the indexfile
 import os
 import math 
-
+from binsrch import *
 
 def get_tf_idf(pl, total_titles, wt):
 	docs_here = pl.split(",")	
@@ -50,27 +50,27 @@ def parse_line(line):
 	return s1[0], s1[1]
 
 #returns posting list for the word in the file
-def search_file(dirname, query_word, field_letter, total_docs): 
+def search_file(dirname, query_word, field_letter, total_docs, tok_index): 
 	dirname += "/index"	
-	tf = open(dirname+"/log.txt", 'r')
-	line = tf.readline().strip('\n')
-	word = line.split("=")[1] 
-	ind = -1
+#tf = open(dirname+"/log.txt", 'r')
+#	line = tf.readline().strip('\n')
+#	word = line.split("=")[1] 
+#	ind = -1
 #print("world is", word)
 
-	while word <= query_word:
+#	while word <= query_word:
 #		print(word, query_word, ind)
-		ind += 1
-		line = tf.readline().strip('\n')
+#		ind += 1
+#		line = tf.readline().strip('\n')
 	
-		if not(line):
-			break
-		word = line.split("=")[1]
+#		if not(line):
+#			break
+#		word = line.split("=")[1]
 
-	tf.close()
+#	tf.close()
 	
-#	print(query_word, "in", ind)
-
+#	print(query_word, "in", ind, find_file(query_word,tok_index))
+	ind = find_file(query_word,tok_index)
 	wts = {	't': 10,'i': 7 ,'b': 2, 'c': 8,'l': 5 ,'r': 3, '-': 1}
 	filename = dirname+"/indfile"+str(ind)+".txt"
 	f = open("%s"%(filename),"r")

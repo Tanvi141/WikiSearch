@@ -20,4 +20,13 @@ def log_title(dirname):
 		line = tf.readline().strip('\n')
 	return ret
 
-
+def find_file(word, tok_track):
+	l = 0
+	r = len(tok_track)-1
+	while l<=r:
+		m = int((l+r)/2)
+		if word < tok_track[m]:
+			r = m - 1
+		else:
+			l = m + 1
+	return l-1

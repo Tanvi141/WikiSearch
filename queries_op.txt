@@ -1,9 +1,16 @@
 282, Hamdan bin Mohammed Al Maktoum
 460, KNGO
 670, Illinois Municipal Retirement Fund
-0.25912952423095703, 0.08637650807698567
+0.2562236785888672, 0.08540789286295573
 
 495, Rosi Braidotti
 536, Päiviö Hetemäki
-0.11964130401611328, 0.05982065200805664
+0.12029051780700684, 0.06014525890350342
+
+53981, Manuel Jiménez Jiménez
+5320, Windows Live Barcode
+4905, The population of Australia
+454, Studio 10,001 Inc.
+5840, Category:Wexford hurlers
+0.0864400863647461, 0.017288017272949218
 

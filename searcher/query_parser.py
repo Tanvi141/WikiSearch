@@ -1,6 +1,7 @@
 import Stemmer
 import re
 import random
+from binsrch import *
 from nltk.corpus import stopwords 
 stemmer = Stemmer.Stemmer('english')
 stop_words = set(stopwords.words('english'))
@@ -29,27 +30,28 @@ def stem_and_stop(data_list):
 		without_stop.append(word)
 	return without_stop
 
-def id_to_title(dirname, doc_id):
+def id_to_title(dirname, doc_id, toks_title):
 	dirname += "/title"
-	tf = open(dirname+"/log.txt", 'r')
-	line = tf.readline().strip('\n')
+#	tf = open(dirname+"/log.txt", 'r')
+#	line = tf.readline().strip('\n')
 
-	curr_id = int(line.split("=")[1].split(":")[0]) 
-	ind = -1
+#	curr_id = int(line.split("=")[1].split(":")[0]) 
+#	ind = -1
 #print("world is", word)
 
-	while curr_id <= doc_id:
+#	while curr_id <= doc_id:
 #		print(word, query_word, ind)
-		ind += 1
-		line = tf.readline().strip('\n')
+#		ind += 1
+#	line = tf.readline().strip('\n')
 	
-		if not(line):
-			break
-		curr_id = int(line.split("=")[1].split(":")[0]) 
+#		if not(line):
+#			break
+#		curr_id = int(line.split("=")[1].split(":")[0]) 
 
-	tf.close()
+#	tf.close()
 	
-#	print(query_word, "in", ind)	
+#	print(doc_id, "in", ind, find_file(doc_id, toks_title))	
+	ind = find_file(doc_id, toks_title)
 	filename = dirname+"/indfile"+str(ind)+".txt"
 	f = open("%s"%(filename),"r")
 	line = f.readline().strip('\n')
@@ -61,7 +63,7 @@ def id_to_title(dirname, doc_id):
 		line = f.readline().strip('\n')
 	return "NOT FOUND IN TITLES"
 
-def query_parse(dirname, query_str):
+def query_parse(dirname, query_str, tok_index, tok_title):
 	lbls = ['t','i', 'b','c','l','r']
 	
 	k_max= int(query_str.split(",")[0])
@@ -76,12 +78,12 @@ def query_parse(dirname, query_str):
 	#plain  query
 	if len(sp) == 1: #then is is a plain query
 		toks = stem_and_stop(tokenise(lower_string(query_string)))
-		print(toks)
+		#print(toks)
 		for word in toks:
 			if word != " " and word != "":
-				print("Posting list for:", word)
-				temp_dict = search_file(dirname, word, '-', total_docs)
-				print(temp_dict)
+				#print("Posting list for:", word)
+				temp_dict = search_file(dirname, word, '-', total_docs, tok_index)
+				#print(temp_dict)
 				for doc_id in temp_dict:
 					if doc_id in scores:
 						scores[doc_id] = scores[doc_id] + temp_dict[doc_id]
@@ -100,7 +102,7 @@ def query_parse(dirname, query_str):
 			for word in stem_and_stop(tokenise(lower_string(words))):
 				if word != " " and word != "":
 #					print("Searching for %s in %s"%(word, field_letter))
-					temp_dict = search_file(dirname, word, field_letter, total_docs)
+					temp_dict = search_file(dirname, word, field_letter, total_docs, tok_index)
 					for doc_id in temp_dict:
 						if doc_id in scores:
 							scores[doc_id] = scores[doc_id] + temp_dict[doc_id]
@@ -113,7 +115,7 @@ def query_parse(dirname, query_str):
 	cnt = 0
 	for doc_id in scores:
 		cnt += 1
-		ret_str += str(doc_id) +", "+ id_to_title(dirname, doc_id)+"\n"
+		ret_str += str(doc_id) +", "+ id_to_title(dirname, doc_id, tok_title)+"\n"
 		if cnt >= k_max:
 			return ret_str, k_max
 
@@ -121,7 +123,7 @@ def query_parse(dirname, query_str):
 		doc_id = random.randint(1, total_docs-2)	
 		if doc_id not in scores:
 			cnt += 1
-			ret_str += str(doc_id)+", "+ id_to_title(dirname, doc_id)+"\n"
+			ret_str += str(doc_id)+", "+ id_to_title(dirname, doc_id, tok_title)+"\n"
 	
 	return ret_str, k_max
 #	print(scores)

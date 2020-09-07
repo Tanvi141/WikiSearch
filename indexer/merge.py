@@ -81,10 +81,10 @@ def merge_two_files(file1, file2, outfile, dirname):
 	os.remove(dirname+"/"+file2)
 	os.rename(dirname+"/temp.txt", dirname+"/"+outfile)
 
-def merge_all_files(out_dir):
+def merge_all_files(out_dir, k):
 	print(out_dir)
 	all_files = [name for name in os.listdir(out_dir) ]
-	total_files = len(all_files) - 1 #ignoring the title file
+	total_files = len(all_files) - k#ignoring the title file
 	
 	print(total_files)
 	while total_files > 1:

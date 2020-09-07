@@ -1,10 +1,13 @@
 import os
 
-def split_files(dirname, split_val):
-	infile = open(dirname+"/indexfile_0.txt","r")
+def split_files(dirname, split_val, inputfile, outdir, flag):
+	infile = open(dirname+"/"+inputfile,"r")
+	
+	dirname =dirname +"/" +outdir
 	cnt = 1
 	line = infile.readline().strip('\n')
-	line = infile.readline().strip('\n') #the first line is space, so ignoring that
+	if flag==1:
+		line = infile.readline().strip('\n') #the first line is space, so ignoring that
 	ind = 0
 
 	of =  open(dirname+"/indfile"+str(ind) +".txt", 'w+')

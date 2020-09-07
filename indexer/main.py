@@ -31,14 +31,22 @@ t1 = time.time()
 print("\nTime taken for parsing:", t1-t0, "secs")
 
 t0 = time.time()
-merge_all_files(dir_output)
+merge_all_files(dir_output, 1)
 t1=time.time()
 print("\nTime taken for merging:", t1-t0, "secs")
 
 
 t0 = time.time()
-split_files(dir_output, 100000, infile, outfile)
+os.mkdir(sys.argv[2]+"/index")
+split_files(dir_output, 100000, "indexfile_0.txt", "index", 1)
 t1=time.time()
-print("\nTime taken for merging:", t1-t0, "secs")
+print("\nTime taken for splitting", t1-t0, "secs")
+
+
+t0 = time.time()
+os.mkdir(sys.argv[2]+"/title")
+split_files(dir_output, 10000, "titles.txt", "title", 0)
+t1=time.time()
+print("\nTime taken for splitting titles", t1-t0, "secs")
 
 

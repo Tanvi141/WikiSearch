@@ -1,16 +1,16 @@
 282, Hamdan bin Mohammed Al Maktoum
 460, KNGO
 670, Illinois Municipal Retirement Fund
-0.2562236785888672, 0.08540789286295573
+0.2560138702392578, 0.08533795674641927
 
 495, Rosi Braidotti
 536, Päiviö Hetemäki
-0.12029051780700684, 0.06014525890350342
+0.1239311695098877, 0.06196558475494385
 
 53981, Manuel Jiménez Jiménez
-5320, Windows Live Barcode
-4905, The population of Australia
-454, Studio 10,001 Inc.
-5840, Category:Wexford hurlers
-0.0864400863647461, 0.017288017272949218
+10761, Peter the Lord's Cat
+39042, Adolphe Biarent
+39037, The Badger
+44055, List of barcode games
+0.09837055206298828, 0.019674110412597656
 

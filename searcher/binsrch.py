@@ -1,3 +1,9 @@
+def get_total_titles_count(dirname):
+	tf = open(dirname+"/count.txt", 'r')
+	line = tf.readline().strip('\n')
+	tf.close()		
+	return int(line)
+
 def log_index(dirname):
 	dirname += "/index"
 	tf = open(dirname+"/log.txt", 'r')

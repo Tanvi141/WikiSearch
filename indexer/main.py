@@ -15,7 +15,8 @@ try:
 	os.mkdir(sys.argv[2])
 	print("Files created  will be stored in newly created directory '%s'"%(sys.argv[2]))
 except:
-	print("Files created will be stored in pre-existing directory '%s'"%(sys.argv[2]))
+	print("DELETE THE DIRECTORY")
+	exit(0)
 
 what_fileind = 1
 docs_so_farrr = 0
@@ -26,12 +27,12 @@ for filename in os.listdir(dir_input):
 	docs_so_farrr = parse_doc(dir_input+"/"+filename, dir_output, what_filename)
 	what_fileind += 1
 
+print(docs_so_farrr)
 t1 = time.time()
-
 print("\nTime taken for parsing:", t1-t0, "secs")
 #exit(0)
 t0 = time.time()
-merge_all_files(dir_output, 1)
+merge_all_files(dir_output, 1) 
 t1=time.time()
 print("\nTime taken for merging:", t1-t0, "secs")
 
@@ -45,8 +46,11 @@ print("\nTime taken for splitting", t1-t0, "secs")
 
 t0 = time.time()
 os.mkdir(sys.argv[2]+"/title")
-split_files(dir_output, 10000, "titles.txt", "title", 0)
+split_files(dir_output, 200000, "titles.txt", "title", 0)
 t1=time.time()
 print("\nTime taken for splitting titles", t1-t0, "secs")
 
+statfile= open(sys.argv[2]+"/count.txt", 'w+')
+statfile.write(str(docs_so_farrr - 1)) #subtracting 1 cause we deleted the first line which was empty
+statfile.close()
 

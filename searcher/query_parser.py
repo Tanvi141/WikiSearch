@@ -7,8 +7,6 @@ stemmer = Stemmer.Stemmer('english')
 stop_words = set(stopwords.words('english'))
 from match import search_file
 
-def get_total_docs(dirname):
-	return 10000
 
 #tokenise
 def tokenise(data_str):                                          
@@ -63,7 +61,7 @@ def id_to_title(dirname, doc_id, toks_title):
 		line = f.readline().strip('\n')
 	return "NOT FOUND IN TITLES"
 
-def query_parse(dirname, query_str, tok_index, tok_title):
+def query_parse(dirname, query_str, tok_index, tok_title, total_docs):
 	lbls = ['t','i', 'b','c','l','r']
 	
 	k_max= int(query_str.split(",")[0])
@@ -71,7 +69,6 @@ def query_parse(dirname, query_str, tok_index, tok_title):
 #	print(k_max, query_string)
 	
 	scores = {}
-	total_docs = get_total_docs(dirname)
 #	print("total docs is", total_docs)
 	
 	sp = query_string.split(':')

@@ -6,6 +6,8 @@ import time
 
 tok_index = (log_index(sys.argv[1]))
 tok_title = (log_title(sys.argv[1]))
+total_titles = get_total_titles_count(sys.argv[1])
+#print(total_titles)
 with open("queries_op.txt", "w") as query_outfile:
 	tq_total = 0
 	query_infile = open("queries.txt", 'r')
@@ -13,7 +15,7 @@ with open("queries_op.txt", "w") as query_outfile:
 	while line:
 		tq_total+=1
 		t0 = time.time()
-		ret, kvalue = query_parse(sys.argv[1], line, tok_index, tok_title)
+		ret, kvalue = query_parse(sys.argv[1], line, tok_index, tok_title, total_titles)
 		query_outfile.write(ret)
 		t1 = time.time()
 		query_outfile.write(str(t1-t0)+", "+ str((t1-t0)/kvalue) + "\n\n")

@@ -35,22 +35,32 @@ def stem_and_stop(data_list):
 		without_stop.append(word)
 	return without_stop
 
-def id_to_title(dirname):
-	pass
-def query_parse(dirname, query_string):
-	lbls = ['t','i', 'b','c','l','r']
+def id_to_title(dirname, doc_id):
+	f =  open(dirname+"/titles.txt", "r")
+	line = f.readline().strip('\n')
+	while line:
+		curr_id = int(line.split(":", 1)[0])
+		if curr_id == doc_id:
+			return  line.split(":", 1)[1]
+		line = f.readline().strip('\n')
+	return "NOT FOUND IN TITLES"
 
+def query_parse(dirname, query_str):
+	lbls = ['t','i', 'b','c','l','r']
+	
+	k_max= int(query_str.split(",")[0])
+	query_string = query_str.split(",")[1]
 	sp = query_string.split(':')
 	candidate_docs = []
 	scores = {}
 	total_docs = get_total_docs(dirname)
-	print("total docs is", total_docs)
+#	print("total docs is", total_docs)
 	if len(sp) == 1: #then is is a plain query
 		toks = stem_and_stop(tokenise(lower_string(query_string)))
 		for word in toks:
-			print("Posting list for:", word)
+#			print("Posting list for:", word)
 			temp_dict = search_file(dirname, word, '-', total_docs)
-			print(temp_dict)
+#			print(temp_dict)
 	else:
 		#print(sp)
 		for i in range(1,len(sp)):
@@ -60,15 +70,26 @@ def query_parse(dirname, query_string):
 				words = words[:-2]
 			for word in stem_and_stop(tokenise(lower_string(words))):
 				if word != " ":
-					print("Searching for %s in %s"%(word, field_letter))
+#					print("Searching for %s in %s"%(word, field_letter))
 					temp_dict = search_file(dirname, word, field_letter, total_docs)
 					for doc_id in temp_dict:
 						if doc_id in scores:
 							scores[doc_id] = scores[doc_id] + temp_dict[doc_id]
 						else:
 							scores[doc_id] = temp_dict[doc_id]
-					print(temp_dict)
+#					print(temp_dict)
 
-	print(scores)
-	#now we get the max scores
+	scores = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
+	cnt = 0
+	for doc_id in scores:
+		cnt += 1
+		print(str(doc_id) +",", id_to_title(dirname, doc_id))
+	while cnt < k_max:
+		doc_id = random.randint(1, total_docs-2)	
+		if doc_id not in scores:
+			cnt += 1
+			print(str(doc_id)+",", id_to_title(dirname, doc_id))
+	
+#	print(scores)
+
 

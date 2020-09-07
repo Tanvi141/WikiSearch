@@ -66,20 +66,30 @@ def query_parse(dirname, query_str):
 	
 	k_max= int(query_str.split(",")[0])
 	query_string = query_str.split(",")[1]
-	print(k_max, query_string)
+#	print(k_max, query_string)
 	
 	scores = {}
 	total_docs = get_total_docs(dirname)
 #	print("total docs is", total_docs)
 	
 	sp = query_string.split(':')
+	#plain  query
 	if len(sp) == 1: #then is is a plain query
 		toks = stem_and_stop(tokenise(lower_string(query_string)))
+		print(toks)
 		for word in toks:
 			if word != " " and word != "":
-#			print("Posting list for:", word)
+				print("Posting list for:", word)
 				temp_dict = search_file(dirname, word, '-', total_docs)
-#			print(temp_dict)
+				print(temp_dict)
+				for doc_id in temp_dict:
+					if doc_id in scores:
+						scores[doc_id] = scores[doc_id] + temp_dict[doc_id]
+					else:
+						scores[doc_id] = temp_dict[doc_id]
+
+
+	#field query
 	else:
 		#print(sp)
 		for i in range(1,len(sp)):
@@ -99,19 +109,21 @@ def query_parse(dirname, query_str):
 #					print(temp_dict)
 
 	scores = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
+	ret_str = ""
 	cnt = 0
 	for doc_id in scores:
 		cnt += 1
-		print(str(doc_id) +",", id_to_title(dirname, doc_id))
+		ret_str += str(doc_id) +", "+ id_to_title(dirname, doc_id)+"\n"
 		if cnt >= k_max:
-			return
+			return ret_str, k_max
 
 	while cnt < k_max:
 		doc_id = random.randint(1, total_docs-2)	
 		if doc_id not in scores:
 			cnt += 1
-			print(str(doc_id)+",", id_to_title(dirname, doc_id))
+			ret_str += str(doc_id)+", "+ id_to_title(dirname, doc_id)+"\n"
 	
+	return ret_str, k_max
 #	print(scores)
 
 

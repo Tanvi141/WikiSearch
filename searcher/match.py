@@ -5,10 +5,13 @@ import math
 
 def get_tf_idf(pl, total_titles, wt):
 	docs_here = pl.split(",")	
+
 	idf = math.log(total_titles / len(docs_here))
 	dict_ret = {}
 
 	for entry in docs_here:
+		if entry == "":
+			continue
 		temp = entry.split(":")
 		doc_id = temp[0]
 		tf = math.log(1+int(temp[1]))
@@ -35,9 +38,9 @@ def parse_pl(pl, field_letter):
 		for c in temp_dict:
 			ret += temp_dict[c]
 	
-	else:
+	elif field_letter in temp_dict:
 		ret = temp_dict[field_letter]
-	
+
 	return ret
 
 

@@ -10,7 +10,7 @@ def split_files(dirname, split_val):
 	of =  open(dirname+"/indfile"+str(ind) +".txt", 'w+')
 	tf = open(dirname+"/log.txt", 'w+')
 	tf.write(str(ind)+"="+line.split("=")[0] +"\n")
-	
+	ind += 1
 	while line:
 		start_words = [line.split("=")[0]]
 		of.write(line + '\n')
@@ -21,8 +21,8 @@ def split_files(dirname, split_val):
 			of.close()
 			print("here")
 			of = open(dirname+"/indfile"+str(ind) +".txt", 'w+')
-			ind += 1
 			tf.write(str(ind)+"="+line.split("=")[0] +"\n")
+			ind += 1
 
 	of.close()		
 	tf.close()

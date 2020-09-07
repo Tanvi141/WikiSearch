@@ -20,7 +20,7 @@ except:
 what_fileind = 1
 docs_so_farrr = 0
 for filename in os.listdir(dir_input):
-	break
+#	break
 	print("parsing file %s"%(filename))
 	what_filename = "indexfile" + str(what_fileind) + "_" 
 	docs_so_farrr = parse_doc(dir_input+"/"+filename, dir_output, what_filename)
@@ -31,7 +31,7 @@ t1 = time.time()
 print("\nTime taken for parsing:", t1-t0, "secs")
 
 t0 = time.time()
-#merge_all_files(dir_output)
+merge_all_files(dir_output)
 t1=time.time()
 print("\nTime taken for merging:", t1-t0, "secs")
 

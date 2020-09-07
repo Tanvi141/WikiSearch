@@ -84,7 +84,7 @@ def merge_two_files(file1, file2, outfile, dirname):
 def merge_all_files(out_dir):
 	print(out_dir)
 	all_files = [name for name in os.listdir(out_dir) ]
-	total_files = len(all_files)
+	total_files = len(all_files) - 1 #ignoring the title file
 	
 	print(total_files)
 	while total_files > 1:

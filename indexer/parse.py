@@ -22,7 +22,7 @@ class WikiDocParser(xml.sax.ContentHandler):
 		self.titleflag = 0
 		self.textflag = 0
 		self.totaldocs = 0
-		
+				
 	def startElement(self, lbl, attrs):
 		if lbl == "title":
 			self.title= ""
@@ -63,9 +63,12 @@ class WikiDocParser(xml.sax.ContentHandler):
 				index_count += 1
 		
 		elif lbl == "mediawiki":	#end of the input file
-				write_to_disk(self.lod, self.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
-				write_titles(self.titles, out_dirname)
-#				
+			write_to_disk(self.lod, self.sow, out_dirname, "indexfile_" + str(index_count) + ".txt")
+			write_titles(self.titles, out_dirname)
+			self.lod = [{}, {}, {}, {}, {}, {}]
+			self.sow.clear()
+			self.titles.clear()
+	
 	def characters(self, data):
 		if self.titleflag == 1:
 			self.title += data

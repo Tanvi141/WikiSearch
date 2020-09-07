@@ -29,7 +29,7 @@ for filename in os.listdir(dir_input):
 t1 = time.time()
 
 print("\nTime taken for parsing:", t1-t0, "secs")
-
+#exit(0)
 t0 = time.time()
 merge_all_files(dir_output, 1)
 t1=time.time()

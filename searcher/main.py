@@ -1,8 +1,11 @@
 #this file is the main file which calls the parsing file
 from query_parser import *
+from binsrch import *
 import sys
 import time
 
+print(log_index(sys.argv[1]))
+print(log_title(sys.argv[1]))
 with open("queries_op.txt", "w") as query_outfile:
 	tq_total = 0
 	query_infile = open("queries.txt", 'r')

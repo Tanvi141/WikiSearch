@@ -13,5 +13,5 @@ with open("queries_op.txt", "w") as query_outfile:
 		ret, kvalue = query_parse(sys.argv[1], line)
 		query_outfile.write(ret)
 		t1 = time.time()
-		query_outfile.write(str(t1-t0)+"\n"+ str((t1-t0)/kvalue) + "\n\n")
+		query_outfile.write(str(t1-t0)+", "+ str((t1-t0)/kvalue) + "\n\n")
 		line = query_infile.readline().strip('\n')

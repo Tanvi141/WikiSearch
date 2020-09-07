@@ -6,16 +6,9 @@ stemmer = Stemmer.Stemmer('english')
 stop_words = set(stopwords.words('english'))
 from match import search_file
 
-def blocks(files, size=65536):
-	while True:
-		b = files.read(size)
-		if not b: break
-		yield b
-
 def get_total_docs(dirname):
-	with open(dirname+"/titles.txt", "r",encoding="utf-8",errors='ignore') as f:
-		return sum(bl.count("\n") for bl in blocks(f))
-		
+	return 10000
+
 #tokenise
 def tokenise(data_str):                                          
 	tokenisedWords=re.split(r'[^A-Za-z0-9]+', data_str)
@@ -37,8 +30,30 @@ def stem_and_stop(data_list):
 	return without_stop
 
 def id_to_title(dirname, doc_id):
-	f =  open(dirname+"/titles.txt", "r")
+	dirname += "/title"
+	tf = open(dirname+"/log.txt", 'r')
+	line = tf.readline().strip('\n')
+
+	curr_id = int(line.split("=")[1].split(":")[0]) 
+	ind = -1
+#print("world is", word)
+
+	while curr_id <= doc_id:
+#		print(word, query_word, ind)
+		ind += 1
+		line = tf.readline().strip('\n')
+	
+		if not(line):
+			break
+		curr_id = int(line.split("=")[1].split(":")[0]) 
+
+	tf.close()
+	
+#	print(query_word, "in", ind)	
+	filename = dirname+"/indfile"+str(ind)+".txt"
+	f = open("%s"%(filename),"r")
 	line = f.readline().strip('\n')
+	
 	while line:
 		curr_id = int(line.split(":", 1)[0])
 		if curr_id == doc_id:
@@ -51,7 +66,7 @@ def query_parse(dirname, query_str):
 	
 	k_max= int(query_str.split(",")[0])
 	query_string = query_str.split(",")[1]
-#	print(k_max, query_string)
+	print(k_max, query_string)
 	
 	scores = {}
 	total_docs = get_total_docs(dirname)
@@ -88,6 +103,9 @@ def query_parse(dirname, query_str):
 	for doc_id in scores:
 		cnt += 1
 		print(str(doc_id) +",", id_to_title(dirname, doc_id))
+		if cnt >= k_max:
+			return
+
 	while cnt < k_max:
 		doc_id = random.randint(1, total_docs-2)	
 		if doc_id not in scores:

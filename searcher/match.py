@@ -48,7 +48,7 @@ def parse_line(line):
 
 #returns posting list for the word in the file
 def search_file(dirname, query_word, field_letter, total_docs): 
-	
+	dirname += "/index"	
 	tf = open(dirname+"/log.txt", 'r')
 	line = tf.readline().strip('\n')
 	word = line.split("=")[1] 

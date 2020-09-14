@@ -35,6 +35,8 @@ def write_to_disk(lod, sow, dirname, filename):
 	lbls = ['t','i', 'b','c','l','r']
 	with open("%s/%s"%(dirname,filename),'w') as f:
 		for word in all_words:
+			if len(word) > 16:
+				continue
 			f.write(word+'=')
 			for i in range(6):
 				flag = 0

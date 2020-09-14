@@ -1,16 +1,9 @@
-282, Hamdan bin Mohammed Al Maktoum
-460, KNGO
-670, Illinois Municipal Retirement Fund
-0.2560138702392578, 0.08533795674641927
+85, Lux Style Awards
+90, Little Munden Primary School
+133, Arjuni Morgaon
+1.5118308067321777, 0.5039436022440592
 
-495, Rosi Braidotti
-536, Päiviö Hetemäki
-0.1239311695098877, 0.06196558475494385
-
-53981, Manuel Jiménez Jiménez
-10761, Peter the Lord's Cat
-39042, Adolphe Biarent
-39037, The Badger
-44055, List of barcode games
-0.09837055206298828, 0.019674110412597656
+459, Kresten Bjerre
+935, Parsley Hay railway station
+0.566774845123291, 0.2833874225616455
 

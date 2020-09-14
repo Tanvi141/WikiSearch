@@ -26,7 +26,6 @@ for filename in os.listdir(dir_input):
 	what_filename = "indexfile" + str(what_fileind) + "_" 
 	docs_so_farrr = parse_doc(dir_input+"/"+filename, dir_output, what_filename)
 	what_fileind += 1
-
 print(docs_so_farrr)
 t1 = time.time()
 print("\nTime taken for parsing:", t1-t0, "secs")

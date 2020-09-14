@@ -21,8 +21,11 @@ class WikiDocParser(xml.sax.ContentHandler):
 		self.text = ""
 		self.titleflag = 0
 		self.textflag = 0
+		self.lod = [{}, {}, {}, {}, {}, {}]
+		self.sow.clear()
+		self.titles.clear()
 		self.totaldocs = 0
-				
+					
 	def startElement(self, lbl, attrs):
 		if lbl == "title":
 			self.title= ""

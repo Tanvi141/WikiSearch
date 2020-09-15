@@ -50,6 +50,6 @@ t1=time.time()
 print("\nTime taken for splitting titles", t1-t0, "secs")
 
 statfile= open(sys.argv[2]+"/count.txt", 'w+')
-statfile.write(str(docs_so_farrr - 1)) #subtracting 1 cause we deleted the first line which was empty
+statfile.write(str(docs_so_farrr))
 statfile.close()
 

@@ -78,9 +78,9 @@ def query_parse(dirname, query_str, tok_index, tok_title, total_docs):
 		#print(toks)
 		for word in toks:
 			if word != " " and word != "":
-				#print("Posting list for:", word)
+				print("Posting list for:", word)
 				temp_dict = search_file(dirname, word, '-', total_docs, tok_index)
-				#print(temp_dict)
+				print(temp_dict)
 				for doc_id in temp_dict:
 					if doc_id in scores:
 						scores[doc_id] = scores[doc_id] + temp_dict[doc_id]
@@ -107,7 +107,8 @@ def query_parse(dirname, query_str, tok_index, tok_title, total_docs):
 							scores[doc_id] = temp_dict[doc_id]
 #					print(temp_dict)
 
-	scores = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1])}
+	scores = {k: v for k, v in sorted(scores.items(), key=lambda item: item[1], reverse = True)}
+	print("Scores sorted and added", scores)
 	ret_str = ""
 	cnt = 0
 	for doc_id in scores:

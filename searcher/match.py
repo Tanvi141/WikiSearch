@@ -13,10 +13,20 @@ def get_tf_idf(pl, total_titles, wt):
 		if entry == "":
 			continue
 		temp = entry.split(":")
-		doc_id = temp[0]
-		tf = math.log(1+int(temp[1]))
-		dict_ret[int(doc_id)] = tf*idf*wt
-
+		doc_id = int(temp[0])
+		num_times = int(temp[1])
+		if doc_id == 9817305:
+			print(temp[1])
+		if doc_id in dict_ret:
+			dict_ret[doc_id] += num_times
+		else:
+			dict_ret[doc_id] = num_times
+	
+	print("raw scores", dict_ret)
+	for doc_id in dict_ret:		
+		tf = math.log(1+dict_ret[doc_id])
+		dict_ret[doc_id] = tf*idf*wt
+	
 	return dict_ret
 
 #parses the posting list
@@ -31,11 +41,12 @@ def parse_pl(pl, field_letter):
 		if len(res) != 1:
 			temp_dict[c] = res[1]
 		pl = res[0]
-#	return temp_dict
 	
 	ret = ""
 	if field_letter == '-':
 		for c in temp_dict:
+			if ret != "":
+				ret +=  ","
 			ret += temp_dict[c]
 	
 	elif field_letter in temp_dict:
